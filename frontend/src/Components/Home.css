@@ -1,0 +1,144 @@
+.submit_form {
+  background-color: rgb(136, 176, 202);
+  width: 20rem;
+  height: 2.5rem;
+  margin-top: 3vh;
+  border-radius: 5px;
+}
+.submit_form:hover {
+  background-color: rgb(94, 164, 211);
+}
+.logo {
+  margin-bottom: 2vh;
+  /* height: 10vh;
+  width: 20vh; */
+}
+.logo-img {
+  border-radius: 0.5rem;
+  height: 13rem;
+}
+.room_wraper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  /* background-color: rgb(135, 126, 126); */
+  align-items: center;
+  justify-content: center;
+  position: sticky;
+  max-height: 90%;
+  /* margin-left: 30rem; */
+  /* margin-top: 20rem; */
+  /* padding: 3rem; */
+}
+
+.room_form {
+  background-color: rgb(32, 33, 32);
+  padding: 4rem;
+  border-radius: 10px;
+}
+body {
+  background-color: rgb(28, 30, 41);
+}
+.editor_container {
+  display: grid;
+  /* flex-direction: row; */
+  grid-template-columns: 230px 1fr;
+  height: 100vh;
+}
+.side_block {
+  background-color: rgb(32, 33, 32);
+  /* padding: 4rem; */
+  display: flex;
+  flex-direction: column;
+  /* flex: 1; */
+}
+
+.client {
+  /* flex-direction: column; */
+  display: flex;
+  flex-direction: column;
+}
+.side_inner {
+  flex: 1;
+}
+.clients {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+/* .leave-room {
+  height: 0;
+} */
+.connected {
+  margin-top: 1vh;
+  font-weight: 800;
+  color: aqua;
+}
+/* .client-name {
+  color: aliceblue;
+  display: none;
+} */
+
+.create-room-btn {
+  color: rgb(251, 255, 0);
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.heading-create-room {
+  color: aliceblue;
+  margin-top: 2vh;
+  margin-bottom: 1vh;
+}
+.leave-room {
+  /* display: flex; */
+  color: aliceblue;
+  justify-content: center;
+}
+.leave-room-btn {
+  /* --- */
+  cursor: pointer;
+  padding-top: 2vh;
+  padding-bottom: 1vh;
+  padding-right: 17vh;
+  margin: 4vh;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  /* display: flex; */
+  justify-content: center;
+}
+.heading-enter-room {
+  color: aliceblue;
+  margin-bottom: 1vh;
+}
+.heading-enter-name {
+  color: aliceblue;
+  margin-bottom: 1vh;
+}
+
+.inputBox {
+  height: 3rem;
+  width: 20rem;
+  border-radius: 10px;
+}
+
+.input_here {
+  display: flex;
+  flex-direction: column;
+}
+
+.main_editor {
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+.submit-code {
+  /* color: rgb(251, 255, 0); */
+  cursor: pointer;
+  /* text-decoration: underline; */
+  font-family: Georgia, "Times New Roman", Times, serif;
+}

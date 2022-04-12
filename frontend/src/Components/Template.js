@@ -6,8 +6,7 @@ int main() {
     cout << "Hello World ! " << endl;  
 }
 `,
-  py: `print("Hello World ! ");
-`,
+  py: `print("Hello World ! ");`,
 };
 
 export default template;

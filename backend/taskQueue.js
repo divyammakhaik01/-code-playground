@@ -42,8 +42,11 @@ job_Queue.process(WORKET_COUNT, async ({ data }) => {
         returnOriginal: false,
       }
     );
-
-    console.log("newJob ", newJob);
+    console.log(
+      "newJob-------------------------------------------------------------------------- ",
+      newJob
+    );
+    return true;
   } catch (error) {
     // update database
     const errorObj = await job.findByIdAndUpdate(

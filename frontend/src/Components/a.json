@@ -1,0 +1,18 @@
+[
+  {
+    "error": {
+      "killed": false,
+      "code": 1,
+      "signal": null,
+      "cmd": " cd C:\\Users\\Divyam\\Desktop\\Code\\Online-compiler\\backend\\codes\\ && py 40240beb-82e8-4690-a2c2-22bf7d951554.py "
+    },
+    "stderror": " File \"C:\\Users\\Divyam\\Desktop\\Code\\Online-compiler\\backend\\codes\\40240beb-82e8-4690-a2c2-22bf7d951554.py\", line 3\r\n print(\"aknlancks\"):\r\n ^\r\nSyntaxError: invalid syntax\r\n"
+  },
+  {
+    "error": {
+      "code": "ERR_CHILD_PROCESS_STDIO_MAXBUFFER",
+      "cmd": " cd C:\\Users\\Divyam\\Desktop\\Code\\Online-compiler\\backend\\codes\\ && py 5e8ace67-ff60-4c3e-8ccc-9eabb762e998.py "
+    },
+    "stderror": ""
+  }
+]
