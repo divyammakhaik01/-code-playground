@@ -266,7 +266,7 @@ const CodeGround = () => {
             let y = v[0].split(`\"`);
 
             v[v.length - 1] = y[1];
-            console.log("len : ", v[0].length);
+            // console.log("len : ", v[0].length);
             setoutput(v);
             console.log("afterafterafter : ", v);
 

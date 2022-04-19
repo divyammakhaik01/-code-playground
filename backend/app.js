@@ -27,6 +27,9 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/status/:id", async (req, res) => {
+  console.log(
+    "---------------------------------status check--------------------------------------"
+  );
   const JOB_ID = req.params.id;
 
   if (JOB_ID === undefined) {
@@ -94,65 +97,65 @@ app.post("/run", async (req, res) => {
     });
     jobID = JobObject["_id"];
     console.log("... ", JobObject);
-
+    console.log("job id :::::    ", jobID);
+    // send job to bull queue
+    addJob(jobID);
+    // console.log("res : ", res);
     // send jobID to frontend
     res.status(201).json({
       status: "true",
       jobID: jobID,
     });
+    // let ID = jobID;
+    // const Job = await job.findById(ID);
 
-    // send job to bull queue
-    // addJob(jobID);
-    let ID = jobID;
-    const Job = await job.findById(ID);
+    // if (Job === undefined) {
+    //   throw Error("invalid ID job not found....");
+    // }
+    // console.log("job Fetched :  ", Job);
+    // // job fetched by worker
+    // try {
+    //   Job["startTime"] = new Date();
+    //   console.log("----------------", Job.languageType);
 
-    if (Job === undefined) {
-      throw Error("invalid ID job not found....");
-    }
-    console.log("job Fetched :  ", Job);
-    // job fetched by worker
-    try {
-      Job["startTime"] = new Date();
-      console.log("----------------", Job.languageType);
+    //   // select language
+    //   if (Job.languageType === "cpp") {
+    //     output = await RunCpp(Job.filepath);
+    //   } else {
+    //     output = await RunPy(Job.filepath);
+    //   }
 
-      // select language
-      if (Job.languageType === "cpp") {
-        output = await RunCpp(Job.filepath);
-      } else {
-        output = await RunPy(Job.filepath);
-      }
-
-      // update database
-      const newJob = await job.findByIdAndUpdate(
-        ID,
-        {
-          startTime: Job["startTime"],
-          endTime: new Date(),
-          Jobstatus: "done",
-          output: output,
-          // output: JSON.stringify(output),
-        },
-        {
-          returnOriginal: false,
-        }
-      );
-      console.log(
-        "newJob-------------------------------------------------------------------------- ",
-        newJob
-      );
-    } catch (error) {
-      // update database
-      const errorObj = await job.findByIdAndUpdate(
-        ID,
-        {
-          startTime: Job["startTime"],
-          endTime: new Date(),
-          Jobstatus: "error",
-          output: JSON.stringify(error),
-        },
-        { returnOriginal: false }
-      );
-    }
+    //   // update database
+    //   const newJob = await job.findByIdAndUpdate(
+    //     ID,
+    //     {
+    //       startTime: Job["startTime"],
+    //       endTime: new Date(),
+    //       Jobstatus: "done",
+    //       output: output,
+    //       // output: JSON.stringify(output),
+    //     },
+    //     {
+    //       returnOriginal: false,
+    //     }
+    //   );
+    //   console.log(
+    //     "newJob-------------------------------------------------------------------------- ",
+    //     newJob
+    //   );
+    // } catch (error) {
+    //   // update database
+    //   const errorObj = await job.findByIdAndUpdate(
+    //     ID,
+    //     {
+    //       startTime: Job["startTime"],
+    //       endTime: new Date(),
+    //       Jobstatus: "error",
+    //       output: JSON.stringify(error),
+    //     },
+    //     { returnOriginal: false }
+    //   );
+    // }
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -164,7 +167,7 @@ app.post("/run", async (req, res) => {
 const server = app.listen(3031, () => {
   console.log("app is listening port 3031 ");
 });
-//
+//------------------------------------------------------------------------------------------------------------------
 const io = new Server(server);
 
 const userSocketMapping = {};

@@ -36,7 +36,8 @@ job_Queue.process(WORKET_COUNT, async ({ data }) => {
         startTime: Job["startTime"],
         endTime: new Date(),
         Jobstatus: "done",
-        output: JSON.stringify(output),
+        // output: JSON.stringify(output),
+        output: output,
       },
       {
         returnOriginal: false,
@@ -60,8 +61,6 @@ job_Queue.process(WORKET_COUNT, async ({ data }) => {
       { returnOriginal: false }
     );
   }
-
-  return true;
 });
 
 // handeling error
