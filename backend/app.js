@@ -129,7 +129,8 @@ app.post("/run", async (req, res) => {
           startTime: Job["startTime"],
           endTime: new Date(),
           Jobstatus: "done",
-          output: JSON.stringify(output),
+          output: output,
+          // output: JSON.stringify(output),
         },
         {
           returnOriginal: false,
@@ -163,7 +164,7 @@ app.post("/run", async (req, res) => {
 const server = app.listen(3031, () => {
   console.log("app is listening port 3031 ");
 });
-
+//
 const io = new Server(server);
 
 const userSocketMapping = {};
@@ -176,7 +177,7 @@ const handleClientList = (id) => {
     };
   });
 };
-
+//
 io.on("connection", (socket) => {
   console.log("user socket connected : ", socket.id);
 

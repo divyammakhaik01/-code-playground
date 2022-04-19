@@ -27,48 +27,47 @@ export const Home = () => {
 
   return (
     <>
-      <div className="container">
+      <div className="homePageWrapper">
         {/* room  */}
-        <div className="room_wraper">
-          <div className="logo">
-            <img
-              className="logo-img"
-              src="/logo.jpg"
-              alt="logo"
-              target="_blank"
+        <div className="formWrapper">
+          <img
+            className="homePageLogo"
+            src="/logo.jpg"
+            alt="logo"
+            target="_blank"
+          />
+          <h4 className="mainLabel"> Enter invitation code </h4>
+
+          <div className="inputGroup">
+            {/* <div className="input_here"> */}
+            <input
+              type="text"
+              className="inputBox"
+              placeholder="ROOM ID"
+              value={room_id}
+              onChange={(e) => setroom_id(e.target.value)}
             />
-          </div>
-          <div className="room_form">
-            <div className="input_here">
-              <div className="heading-enter-room"> Enter invitation code </div>
-              <input
-                type="text"
-                className="inputBox"
-                placeholder="ROOM ID"
-                value={room_id}
-                onChange={(e) => setroom_id(e.target.value)}
-              />
-              <div className="heading-enter-name"> Enter your name </div>
-              <input
-                type="text"
-                className="inputBox"
-                placeholder="USER NAME"
-                value={userName}
-                onChange={(e) => setuserName(e.target.value)}
-              />
-            </div>
-            <button onClick={submit_form} className="submit_form" type="submit">
+            <div className="heading-enter-name"> Enter your name </div>
+            <input
+              type="text"
+              className="inputBox"
+              placeholder="USER NAME"
+              value={userName}
+              onChange={(e) => setuserName(e.target.value)}
+            />
+            <button onClick={submit_form} className="btn joinBtn" type="submit">
               JOIN
             </button>
             {/* generate new room */}
             <div className="heading-create-room">
               create new room &nbsp;
-              <span onClick={generate_room_id} className="create-room-btn">
+              <span onClick={generate_room_id} className="createNewBtn">
                 click
               </span>
             </div>
           </div>
         </div>
+        {/* </div> */}
       </div>
     </>
   );

@@ -10,12 +10,13 @@ import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets";
 import "codemirror/lib/codemirror.css";
 import Avatar from "react-avatar";
+import Drawer from "@mui/material/Drawer";
 
 const CodeGround = () => {
   // state's
 
   const [code, setcode] = useState();
-  const [output, setoutput] = useState("");
+  const [output, setoutput] = useState([]);
   const [current_language, setcurrent_language] = useState("cpp");
   const [status, setstatus] = useState("");
   const [clients, setClients] = useState([]);
@@ -64,6 +65,7 @@ const CodeGround = () => {
     codeRef.current,
     curr_language_ref.current,
   ]);
+
   // socket
   useEffect(() => {
     const func = async () => {
@@ -145,14 +147,14 @@ const CodeGround = () => {
       editorRef.current = Codemirrior.fromTextArea(
         document.getElementById("editor"),
         {
-          mode: { name: "clike", json: false },
+          mode: { name: "clike", json: true },
           theme: "dracula",
           autoCloseTags: true,
           autoCloseBrackets: true,
           lineNumbers: true,
         }
       );
-      editorRef.current.setSize(500, 300);
+      // editorRef.current.setSize(700, 200);
       editorRef.current.on("change", (instance, changes) => {
         const { origin } = changes;
         const code = instance.getValue();
@@ -208,20 +210,21 @@ const CodeGround = () => {
       }),
     };
     try {
-      setoutput("");
+      setoutput([]);
       setstatus("RUNNING...");
 
-      if (!payload) {
+      if (!payload || CODE === "") {
         console.log("nopayload found");
-        setstatus("ERROR");
+        setstatus("no code found");
         return;
       }
 
       const res = await fetch("http://localhost:3031/run", payload);
 
       const JOBID = await res.json();
-      if (JOBID === undefined) {
+      if (JOBID === undefined || res.status == 500) {
         console.log("job id is wrong");
+        setstatus("");
         return;
       }
       // pooling
@@ -231,9 +234,11 @@ const CodeGround = () => {
 
         // in case of error in code
         if (rec_data.success === false) {
-          let value = Object.values(rec_data.response.output);
+          let value = rec_data.response.output;
           setstatus("WRONG");
-          setoutput(value);
+
+          let v = value.split("\\r\\n");
+          setoutput(v);
           clearInterval(intervalID);
           return;
         }
@@ -245,9 +250,25 @@ const CodeGround = () => {
           }
           // if done
           else {
-            let value = Object.values(rec_data.response.output);
-            setstatus("SUCCESS");
-            setoutput(value);
+            let value = rec_data.response.output;
+            setstatus("");
+            value = JSON.stringify(value);
+            console.log("before : ", value);
+
+            // let v = value.split("\r\n");
+            let v = value.split("\\r\\n");
+
+            // value = value.replace("\r\n", "*");
+            console.log("after : ", v);
+
+            let x = v[0].split(`\"`);
+            v[0] = x[1];
+            let y = v[0].split(`\"`);
+
+            v[v.length - 1] = y[1];
+            console.log("len : ", v[0].length);
+            setoutput(v);
+            console.log("afterafterafter : ", v);
 
             clearInterval(intervalID);
           }
@@ -277,59 +298,116 @@ const CodeGround = () => {
     // });
   };
 
+  let ishidden = true;
   //
+  function reportWindowSize() {
+    console.log(window.innerHeight);
+    console.log(window.innerWidth);
+    if (window.innerWidth > 700) {
+      console.log("enter......................");
+      ishidden = true;
+      document.querySelector(".aside").style.display = "flex";
+      document.querySelector(".hidden-aside").style.display = "none";
+    }
+    if (window.innerWidth < 700) {
+      document.querySelector(".aside").style.display = "none";
+      document.querySelector(".hide-pannel").children[0].className =
+        "fas fa-bars";
+    }
+  }
+
+  window.onresize = reportWindowSize;
+
+  const printOutput = () => {
+    console.log("newOut >> : ", output);
+    var newstr = JSON.stringify(output);
+    console.log(newstr);
+    // for (var i = 0; i < output.length; i++)
+    //   if (!(output[i] == "\n" || output[i] == "\r")) newstr += output[i];
+    // // let newOut = output.replace(/[\r\n]+/gm, "*");
+    // console.log("newOut : ", newstr);
+    // let newOutput = Array.from(output);
+    // let OUTPUT = [];
+    // for (let i = 0; i < newOutput.length-1; i++) {
+    //   if(newOutput[i] == " " && newOutput[i+1] == "\" ){
+    //     // OUTPUT.push(newOutput[i]);
+    //   }
+    // }
+  };
+
   return (
     <>
-      <div className="editor_container">
+      <div className=" mainWrap">
         {/* left side   */}
-        <div className="side_block">
-          <div className="side_inner">
-            {/* <div className="editor-logo">
-            <img
-              // className="logo-img"
-              src="/logo.jpg"
-              alt="logo"
-              target="_blank"
-            />
-          </div> */}
-            <h3 className="connected"> Connected </h3>
-
-            <div className="clients">
+        <div className="aside">
+          <div className="asideInner">
+            <h3>Connected</h3>
+            <div className="clientsList">
               {clients.map((client) => (
-                <span className="client">
+                <div className="client">
                   <Avatar
                     className="avatar"
                     name={client.username}
                     size="50"
+                    round="14px"
+                    key={client.socketID}
                   ></Avatar>
-                  {/* <span className="client-name"> {client.username}</span> */}
-                </span>
+                  {/* <div className="client-name"> {client.username}</div> */}
+                </div>
               ))}
             </div>
-            {/* <div className="clients">{JSON.stringify(clients)}</div> */}
           </div>
 
-          <div className="leave-room">
-            <button className="leave-room-btn">LEAVE ROOM</button>
-            {/* <button onClick={handleLeave}>Leave</button> */}
-          </div>
+          <button className="btn leaveBtn">LEAVE ROOM</button>
         </div>
-
         {/* --------------------------------------------------------------------------------------- */}
-
-        {/* right side  */}
-        <div className="main_editor">
+        {/* main_editor  */}
+        <div className="outer-outer">
+          <div className="hidden-aside">
+            <div className="hidden-asideInner">
+              <div className="hidden-clientsList">
+                {clients.map((client) => (
+                  <div className="hidden-client">
+                    <Avatar
+                      // className="avatar"
+                      name={client.username}
+                      size="30"
+                      round="14px"
+                      key={client.socketID}
+                    ></Avatar>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <button className="">LEAVE ROOM</button>
+          </div>
           <div className="top-editor">
-            <button
-              // className="border-solid border-4 border-indigo-500 my-5 px-5 bg-blue-200 rounded-md "
-              className="submit-code"
-              type="submit"
-              onClick={handleCodeSubmit1}
+            {/* ------------------------------------- */}
+            <div
+              className="hide-pannel"
+              onClick={(e) => {
+                if (ishidden) {
+                  document.querySelector(".hidden-aside").style.display =
+                    "flex";
+                  document.querySelector(".hide-pannel").children[0].className =
+                    "fas fa-times";
+                  ishidden = false;
+                } else {
+                  ishidden = true;
+                  document.querySelector(".hidden-aside").style.display =
+                    "none";
+                  document.querySelector(".hide-pannel").children[0].className =
+                    "fas fa-bars";
+                }
+              }}
             >
-              Submit
-            </button>
+              <i class="fas fa-bars"></i>
+
+              {/* ------------------------------------- */}
+
+              {/* Menu */}
+            </div>
             {/* Select language */}
-            {/* <div>Language</div> */}
             <select
               id="select_lang"
               value={current_language}
@@ -346,26 +424,63 @@ const CodeGround = () => {
                   "change_lang",
                   ({ userName, id, lang }) => {
                     setcurrent_language(lang);
-                    console.log("change_lang [[[[[[[[[[[[[[[[[[   ", lang);
                   }
                 );
-                // });
-                // changeLang(e);
               }}
             >
               <option onChange={changeLang}>{current_language}</option>
               <option>{current_language === "cpp" ? "py" : "cpp"}</option>
             </select>
+            <button
+              className="submit-code"
+              type="submit"
+              onClick={handleCodeSubmit1}
+            >
+              Submit
+            </button>
           </div>
-          {/* ground */}
-          <textarea id="editor"></textarea>
-          {/* output */}
-          <div className="bottom-editor">
-            <span>OUTPUT</span>
-            {status}
-            {output !== ""
-              ? output.map((e) => (e === "\r\n" ? <br /> : <span>{e}</span>))
-              : ""}
+          <div className="outer">
+            {/* ------------------------------------------------------------------------ */}
+            <textarea id="editor"></textarea>
+            {/*---------------------------------------- OUTPUT---------------------------- */}
+            <div className="bottom-editor">
+              <span className="console-output">OUTPUT</span>
+              <div className="output-status">{status}</div>
+              <div className="output">
+                {/* {output !== ""
+                  ? output.map((e) =>
+                      e === "\r\n" ? <br /> : <span>{e}</span>
+                    )
+                  : ""} */}
+                {/* {
+                output.replace("" , "")
+                } */}
+                {/* {Array.from(output).map((e) => {
+                  // e === "\r\n" ? <br /> : <span>{e}</span>;
+                  console.log("e : ", e);
+                })} */}
+                {/* {output} */}
+                {
+                  // printOutput()
+                  // output.map((e) => {
+                  //   <div>e</div>;
+                  // })
+                  // output !== []
+                  //   ? output.map((e) => {
+                  //       <span>e</span>;
+                  //     })
+                  //   : []
+                  output.map((value) => {
+                    return (
+                      <>
+                        <div>{value}</div>
+                        {/* <br /> */}
+                      </>
+                    );
+                  })
+                }
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -374,3 +489,14 @@ const CodeGround = () => {
 };
 
 export default CodeGround;
+
+//  {
+//    /* <div className="editor-logo">
+//               <img
+//                 // className="logo-img"
+//                 src="/logo.jpg"
+//                 alt="logo"
+//                 target="_blank"
+//               />
+//             </div> */
+//  }
