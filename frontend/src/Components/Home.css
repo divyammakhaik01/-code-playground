@@ -71,12 +71,28 @@ input {
   align-items: center;
 }
 
-.CodeMirror {
+/* .CodeMirror {
   min-height: calc(100vh - 20px);
-  font-size: 20px;
+  font-size: 15px;
   line-height: 1.6;
   padding-top: 20px;
+} */
+.output-status {
+  font-size: 1.2rem;
+  font-weight: 700;
 }
+.CodeMirror {
+  min-height: calc(35.5rem);
+  font-size: 17px;
+  line-height: 1.6;
+  padding-top: 20px;
+  width: calc(100vh - 20px);
+  height: 22rem;
+  /* height: 23rem; */
+  /* overflow: auto; */
+  grid-area: code-mirror;
+}
+
 .side_inner {
   /* margin: 1rem; */
   flex: 1;
@@ -179,10 +195,10 @@ input {
 }
 
 .formWrapper {
-  background: #282a36;
+  background: #252732;
   padding: 20px;
   border-radius: 10px;
-  width: 400px;
+  width: 315px;
   max-width: 90%;
 }
 
@@ -197,8 +213,15 @@ input {
 }
 
 .homePageLogo {
-  height: 80px;
+  height: 92px;
+  width: inherit;
   margin-bottom: 30px;
+  border-radius: 8px;
+}
+.codepair-img {
+  height: 20rem;
+  width: 30rem;
+  margin: 5rem;
 }
 
 .inputBox {
@@ -224,14 +247,15 @@ input {
 
 .joinBtn,
 .leaveBtn {
-  background: #4aed88;
-  width: 100px;
-  margin-left: auto;
+  background: #6272a4;
+  width: inherit;
+  color: whitesmoke;
+  /* margin-left: auto; */
 }
 
 .joinBtn:hover,
 .leaveBtn:hover {
-  background: #2b824c;
+  background: #4262c3;
 }
 
 .createInfo {
@@ -240,7 +264,7 @@ input {
 }
 
 .createNewBtn {
-  color: #4aed88;
+  color: #00ccc8;
   text-decoration: none;
   border-bottom: 1px solid #4aed88;
   transition: all 0.3s ease-in-out;
@@ -250,6 +274,7 @@ input {
 footer a:hover {
   color: #368654;
   border-color: #368654;
+  cursor: pointer;
 }
 
 .mainWrap {
@@ -289,17 +314,6 @@ footer a:hover {
   flex-direction: column;
   height: 38rem;
 }
-.CodeMirror {
-  min-height: calc(35.5rem);
-  font-size: 20px;
-  line-height: 1.6;
-  padding-top: 20px;
-  width: calc(100vh - 20px);
-  height: 22rem;
-  /* height: 23rem; */
-  /* overflow: auto; */
-  grid-area: code-mirror;
-}
 
 .bottom-editor {
   color: rgb(4, 4, 4);
@@ -321,7 +335,7 @@ footer a:hover {
   padding-right: 12px;
   padding-left: 7px;
   position: relative;
-  font-weight: 700;
+  font-weight: 900;
 }
 .hidden-aside {
   display: flex;
@@ -360,11 +374,11 @@ footer a:hover {
 }
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb {
   background: rgb(78, 73, 73);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -413,6 +427,9 @@ footer a:hover {
     font-size: 2rem;
     margin-right: 5rem;
     display: block;
+  }
+  .code-pair-img {
+    display: none;
   }
 }
 

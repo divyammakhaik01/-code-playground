@@ -62,10 +62,13 @@ export const Home = () => {
             <div className="heading-create-room">
               create new room &nbsp;
               <span onClick={generate_room_id} className="createNewBtn">
-                click
+                click here
               </span>
             </div>
           </div>
+        </div>
+        <div className="code-pair-img">
+          <img className="codepair-img" src="/codepair.png" alt="image" />
         </div>
         {/* </div> */}
       </div>

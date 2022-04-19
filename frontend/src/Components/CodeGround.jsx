@@ -260,12 +260,12 @@ const CodeGround = () => {
 
             // value = value.replace("\r\n", "*");
             console.log("after : ", v);
-
+            let temp = v[0];
             let x = v[0].split(`\"`);
             v[0] = x[1];
-            let y = v[0].split(`\"`);
-
-            v[v.length - 1] = y[1];
+            let y = v[v.length - 1].split(`\"`);
+            console.log("y : ", y);
+            v[v.length - 1] = y[0];
             // console.log("len : ", v[0].length);
             setoutput(v);
             console.log("afterafterafter : ", v);
@@ -436,7 +436,7 @@ const CodeGround = () => {
               type="submit"
               onClick={handleCodeSubmit1}
             >
-              Submit
+              Run
             </button>
           </div>
           <div className="outer">
