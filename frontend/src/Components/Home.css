@@ -288,6 +288,9 @@ footer a:hover {
 .hide-pannel {
   display: none;
 }
+.hide-pannel1 {
+  display: none;
+}
 .outer-outer {
   display: flex;
   flex-direction: column;
@@ -365,7 +368,7 @@ footer a:hover {
   font-family: Georgia, "Times New Roman", Times, serif;
   height: 2.8rem;
   width: 7rem;
-  border-radius: 9px;
+  border-radius: 7px;
   /* background-color: #00ccc8; */
   font-size: 20px;
 }
@@ -383,6 +386,13 @@ footer a:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #232323;
+}
+.mobile-view-sidebar {
+  display: flex;
+  gap: 3rem;
+  /* z-index: 1; */
+  /* justify-content: initial; */
+  align-items: center;
 }
 /*  */
 @media screen and (max-width: 900px) {
@@ -412,12 +422,17 @@ footer a:hover {
 @media screen and (max-width: 700px) {
   .outer-outer {
     width: 50%;
+    /* background-color: #00ccc8; */
   }
   .outer {
     flex-direction: column;
   }
   .aside {
     display: none;
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    right: 100%-1vh;
   }
   .hidden-aside {
     /* display: flex; */
@@ -429,6 +444,13 @@ footer a:hover {
     margin-right: 5rem;
     display: block;
   }
+  .hide-pannel1 {
+    color: #d7d4f0;
+    font-size: 2rem;
+    margin-right: 5rem;
+    display: block;
+  }
+
   .code-pair-img {
     display: none;
   }
@@ -482,7 +504,7 @@ footer a:hover {
   font-family: Georgia, "Times New Roman", Times, serif;
   height: 2.8rem;
   width: 7rem;
-  border-radius: 9px;
+  border-radius: 7px;
   background-color: #00ccc8;
   font-size: 20px;
 }

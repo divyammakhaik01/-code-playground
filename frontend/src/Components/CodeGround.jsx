@@ -266,7 +266,6 @@ const CodeGround = () => {
     });
   };
 
-
   const handle_leave_room = () => {
     if (socketReference.current) socketReference.current.emit("leave-room");
     Navigate("/");
@@ -281,13 +280,21 @@ const CodeGround = () => {
   };
 
   let ishidden = true;
+  let mobile_view_flag = false;
+
   //
   function handle_window_size_change() {
     if (window.innerWidth > 700) {
       ishidden = true;
       document.querySelector(".aside").style.display = "flex";
       document.querySelector(".hidden-aside").style.display = "none";
+      document.querySelector(".outer-outer").style.removeProperty("filter");
+      document.querySelector("body").style.removeProperty("overflow");
+      document.querySelector(".hide-pannel1").style.display = "none";
+      document.querySelector(".hide-pannel").style.display = "none";
     } else if (window.innerWidth < 700) {
+      // document.querySelector(".hide-pannel1").style.display = "flex";
+      document.querySelector(".hide-pannel").style.display = "flex";
       ishidden = true;
       document.querySelector(".aside").style.display = "none";
       document.querySelector(".hide-pannel").children[0].className =
@@ -301,18 +308,12 @@ const CodeGround = () => {
     console.log("newOut >> : ", output);
     var newstr = JSON.stringify(output);
     console.log(newstr);
-    // for (var i = 0; i < output.length; i++)
-    //   if (!(output[i] == "\n" || output[i] == "\r")) newstr += output[i];
-    // // let newOut = output.replace(/[\r\n]+/gm, "*");
-    // console.log("newOut : ", newstr);
-    // let newOutput = Array.from(output);
-    // let OUTPUT = [];
-    // for (let i = 0; i < newOutput.length-1; i++) {
-    //   if(newOutput[i] == " " && newOutput[i+1] == "\" ){
-    //     // OUTPUT.push(newOutput[i]);
-    //   }
-    // }
   };
+  function handle_mobile_view() {
+    document.querySelector(".outer-outer").style.filter = "blur(8px)";
+    document.querySelector(".outer-outer").style.height = "100%";
+    document.querySelector("body").style.overflow = "hidden";
+  }
 
   return (
     <>
@@ -320,7 +321,48 @@ const CodeGround = () => {
         {/* left side   */}
         <div className="aside">
           <div className="asideInner">
-            <h3>Connected</h3>
+            <h3 className="mobile-view-sidebar">
+              <h3> Connected </h3>
+              {/*  */}
+              <div
+                style={{ display: "none" }}
+                className="hide-pannel1"
+                onClick={(e) => {
+                  if (ishidden) {
+                    document.querySelector(".aside").style.display = "flex";
+                    document.querySelector(
+                      ".hide-pannel1"
+                    ).children[0].className = "fas fa-times";
+
+                    ishidden = false;
+                  } else {
+                    ishidden = true;
+                    document.querySelector(".aside").style.display = "none";
+                    document.querySelector(
+                      ".hide-pannel1"
+                    ).children[0].className = "fas fa-times";
+                    document.querySelector(".hide-pannel").style.display =
+                      "flex";
+                    mobile_view_flag = false;
+                    document
+                      .querySelector(".outer-outer")
+                      .style.removeProperty("filter");
+                    // document.querySelector(".outer-outer").style.height = "100%";
+                    document
+                      .querySelector("body")
+                      .style.removeProperty("overflow");
+                    document.querySelector(
+                      ".hide-pannel"
+                    ).children[0].className = "fas fa-bars";
+                  }
+                }}
+              >
+                <i class="fas fa-bars"></i>
+                {/* ------------------------------------- */}
+                {/* Menu */}
+              </div>
+              {/*  */}
+            </h3>
             <div className="clientsList">
               {clients.map((client) => (
                 <div className="client">
@@ -370,15 +412,34 @@ const CodeGround = () => {
               className="hide-pannel"
               onClick={(e) => {
                 if (ishidden) {
-                  document.querySelector(".hidden-aside").style.display =
+                  // document.querySelector(".hidden-aside").style.display =
+                  //   "flex";
+                  // document.querySelector(".hide-pannel").children[0].className =
+                  //   "fas fa-times";
+                  document.querySelector(
+                    ".hide-pannel1"
+                  ).children[0].className = "fas fa-times";
+                  document.querySelector(".aside").style.display = "flex";
+                  document.querySelector(".hide-pannel1").style.display =
                     "flex";
+                  mobile_view_flag = true;
                   document.querySelector(".hide-pannel").children[0].className =
                     "fas fa-times";
+                  document.querySelector(".hide-pannel").style.display = "none";
                   ishidden = false;
+
+                  //
+                  handle_mobile_view();
+                  //
                 } else {
                   ishidden = true;
-                  document.querySelector(".hidden-aside").style.display =
-                    "none";
+                  // document.querySelector(".hidden-aside").style.display =
+                  //   "none";
+                  // document.querySelector(
+                  //   ".hide-pannel"
+                  // ).children[0].className = "fas fa-bars";
+
+                  document.querySelector(".aside").style.display = "none";
                   document.querySelector(".hide-pannel").children[0].className =
                     "fas fa-bars";
                 }
@@ -419,7 +480,8 @@ const CodeGround = () => {
               type="submit"
               onClick={handleCodeSubmit1}
             >
-              Run
+              {/* <i class="fa-solid fa-play"></i> */}
+              RUN
             </button>
           </div>
           <div className="outer">
