@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Home.css";
 import { init_socket } from "./SocketIO";
 import template from "./Template";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Codemirrior from "codemirror";
 import "codemirror/mode/clike/clike";
 import "codemirror/theme/dracula.css";
@@ -25,6 +25,7 @@ const CodeGround = () => {
 
   const location = useLocation();
   const { id } = useParams();
+  const Navigate = useNavigate();
 
   //  socket-reference
 
@@ -35,28 +36,6 @@ const CodeGround = () => {
 
   // setting default template
   useEffect(() => {
-    // setcode(template[current_language]);
-    // if (editorRef.current && codeRef.current) editorRef.current.setValue();
-    // editorRef.current.setValue(template[current_language]);
-    // if (socketReference.current ) {
-    //   socketReference.current.emit("code-sync", {
-    //     code: codeRef.current,
-    //     lang: curr_language_ref.current,
-    //     id,
-    //   });
-
-    //   socketReference.current.on("code-sync", ({ id, code, lang }) => {
-    //     setcode(code);
-    //     console.log("enter into code-sync lang ");
-
-    //     setcurrent_language(lang);
-    //     console.log("recived lang :", lang);
-    //     console.log("code ::: ", code);
-    //     if (code !== undefined) editorRef.current.setValue(code);
-    //   });
-    // }
-
-    console.log("enter into change lang ");
     if (socketReference.current) changeLang();
   }, [
     // current_language,
@@ -126,8 +105,6 @@ const CodeGround = () => {
 
   const changeLang = (e) => {
     curr_language_ref.current = current_language;
-    // setcurrent_language(curr_language_ref.current);
-
     socketReference.current.emit("change_lang", {
       id,
       userName: location.state.userName,
@@ -136,7 +113,6 @@ const CodeGround = () => {
 
     socketReference.current.on("change_lang", ({ userName, id, lang }) => {
       setcurrent_language(lang);
-      console.log("change_lang [[[[[[[[[[[[[[[[[[   ", lang);
     });
   };
 
@@ -227,7 +203,7 @@ const CodeGround = () => {
         setstatus("");
         return;
       }
-      // pooling
+      // long - pooling
       let intervalID = setInterval(async () => {
         let rec = await fetch(`http://localhost:3031/status/${JOBID["jobID"]}`);
         let rec_data = await rec.json();
@@ -253,22 +229,22 @@ const CodeGround = () => {
             let value = rec_data.response.output;
             setstatus("");
             value = JSON.stringify(value);
-            console.log("before : ", value);
+            // console.log("before : ", value);
 
             // let v = value.split("\r\n");
             let v = value.split("\\r\\n");
 
             // value = value.replace("\r\n", "*");
-            console.log("after : ", v);
+            // console.log("after : ", v);
             let temp = v[0];
             let x = v[0].split(`\"`);
             v[0] = x[1];
             let y = v[v.length - 1].split(`\"`);
-            console.log("y : ", y);
+            // console.log("y : ", y);
             v[v.length - 1] = y[0];
-            // console.log("len : ", v[0].length);
+            console.log("len : ", v[0].length);
             setoutput(v);
-            console.log("afterafterafter : ", v);
+            // console.log("afterafterafter : ", v);
 
             clearInterval(intervalID);
           }
@@ -280,8 +256,8 @@ const CodeGround = () => {
   };
 
   const handleCodeSubmit1 = () => {
-    console.log("handleCodeSubmit1 : ", curr_language_ref.current);
-    console.log("currlang: ,", current_language);
+    // console.log("handleCodeSubmit1 : ", curr_language_ref.current);
+    // console.log("currlang: ,", current_language);
     curr_language_ref.current = current_language;
     socketReference.current.emit("output", {
       id,
@@ -290,33 +266,36 @@ const CodeGround = () => {
     });
   };
 
-  const handleLangChange = () => {
-    // codeRef.current = "";
-    // socketReference.current.emit("code-change", {
-    //   id,
-    //   code: codeRef.current,
-    // });
+
+  const handle_leave_room = () => {
+    if (socketReference.current) socketReference.current.emit("leave-room");
+    Navigate("/");
+    //  socketReference.current.on("disconnected", (data) => {
+    //    setClients((curr_list_of_users) => {
+    //      return curr_list_of_users.filter(
+    //        (clinet) => clinet.socketID !== data.socketID
+    //      );
+    //    });
+    //    // alert(`userName : ${data.userName} left`);
+    //  });
   };
 
   let ishidden = true;
   //
-  function reportWindowSize() {
-    console.log(window.innerHeight);
-    console.log(window.innerWidth);
+  function handle_window_size_change() {
     if (window.innerWidth > 700) {
-      console.log("enter......................");
       ishidden = true;
       document.querySelector(".aside").style.display = "flex";
       document.querySelector(".hidden-aside").style.display = "none";
-    }
-    if (window.innerWidth < 700) {
+    } else if (window.innerWidth < 700) {
+      ishidden = true;
       document.querySelector(".aside").style.display = "none";
       document.querySelector(".hide-pannel").children[0].className =
         "fas fa-bars";
     }
   }
 
-  window.onresize = reportWindowSize;
+  window.onresize = handle_window_size_change;
 
   const printOutput = () => {
     console.log("newOut >> : ", output);
@@ -358,7 +337,9 @@ const CodeGround = () => {
             </div>
           </div>
 
-          <button className="btn leaveBtn">LEAVE ROOM</button>
+          <button className="btn leaveBtn" onClick={handle_leave_room}>
+            LEAVE ROOM
+          </button>
         </div>
         {/* --------------------------------------------------------------------------------------- */}
         {/* main_editor  */}
@@ -379,7 +360,9 @@ const CodeGround = () => {
                 ))}
               </div>
             </div>
-            <button className="">LEAVE ROOM</button>
+            <button className="">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
           </div>
           <div className="top-editor">
             {/* ------------------------------------- */}

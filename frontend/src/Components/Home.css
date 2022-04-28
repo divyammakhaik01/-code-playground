@@ -420,6 +420,7 @@ footer a:hover {
     display: none;
   }
   .hidden-aside {
+    /* display: flex; */
     display: none;
   }
   .hide-pannel {
