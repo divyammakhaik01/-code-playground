@@ -359,14 +359,24 @@ const CodeGround = () => {
     document.querySelector("body").style.overflow = "hidden";
   }
 
+  async function handleCopyRoomID() {
+    try {
+      await navigator.clipboard.writeText(id);
+    } catch (error) {
+      console.log("error while copying roomid");
+    }
+  }
+
   return (
     <>
       <div className=" mainWrap">
         {/* left side   */}
         <div className="aside">
           <div className="asideInner">
+            {/* <img src="https://img.icons8.com/glyph-neue/64/000000/code.png" /> */}
+
             <h3 className="mobile-view-sidebar">
-              <h3> Connected </h3>
+              <h3 style={{ "font-family": "cursive" }}> Connected </h3>
               {/*  */}
               <div
                 style={{ display: "none" }}
@@ -539,7 +549,29 @@ const CodeGround = () => {
               onClick={handleCodeSubmit1}
             >
               {/* <i class="fa-solid fa-play"></i> */}
-              RUN
+              <div className="btn-inner">
+                <span> RUN</span>
+                <img
+                  style={{ width: "2rem" }}
+                  src="https://img.icons8.com/ios-glyphs/30/000000/sort-right.png"
+                />
+              </div>
+            </button>
+
+            <button
+              className="copy-code"
+              type="submit"
+              onClick={handleCopyRoomID}
+            >
+              <div className="btn-inner">
+                <span className="id_copy-text">Copy Room ID</span>
+
+                <img
+                  className="id_copy-img"
+                  style={{ width: "2rem" }}
+                  src="https://img.icons8.com/small/96/000000/copy.png"
+                />
+              </div>
             </button>
           </div>
           <div className="outer">

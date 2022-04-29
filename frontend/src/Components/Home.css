@@ -362,15 +362,19 @@ footer a:hover {
   grid-area: editor-area;
   gap: 20px;
 }
-
+.mobile-view-sidebar {
+  margin: 0rem;
+}
 #select_lang {
   cursor: pointer;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: cursive;
   height: 2.8rem;
   width: 7rem;
-  border-radius: 7px;
-  /* background-color: #00ccc8; */
+  border-radius: 0.4rem;
+
+  background-color: antiquewhite;
   font-size: 20px;
+  border: none;
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -409,6 +413,9 @@ footer a:hover {
   .CodeMirror {
     width: calc(30rem);
   }
+  .id_copy-img {
+    display: none;
+  }
 }
 @media screen and (max-width: 19999px) {
   .aside {
@@ -417,9 +424,29 @@ footer a:hover {
   .hidden-aside {
     display: none;
   }
+  .id_copy-img {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 700px) {
+  /* .copy-code {
+    cursor: pointer;
+    font-family: cursive;
+    height: 2.8rem;
+    width: 9rem;
+    border-radius: 7px;
+    background-color: #626364;
+    font-size: 20px;
+    color: aliceblue;
+    border: none;
+  } */
+  .id_copy-img {
+    display: flex;
+  }
+  .id_copy-text {
+    display: none;
+  }
   .outer-outer {
     width: 50%;
     /* background-color: #00ccc8; */
@@ -456,6 +483,9 @@ footer a:hover {
 
   .code-pair-img {
     display: none;
+  }
+  .bottom-editor {
+    margin-left: 0px;
   }
 }
 
@@ -504,15 +534,38 @@ footer a:hover {
 
 .submit-code {
   cursor: pointer;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: cursive;
   height: 2.8rem;
   width: 7rem;
   border-radius: 7px;
-  background-color: #00ccc8;
+  background-color: #2f8d46;
   font-size: 20px;
+  color: aliceblue;
+  border: none;
+}
+.submit-code:hover {
+  background-color: #22b146;
+}
+.btn-inner {
+  display: flex;
+}
+.copy-code {
+  cursor: pointer;
+  font-family: cursive;
+  height: 2.8rem;
+  width: 9rem;
+  border-radius: 7px;
+  background-color: #626364;
+  font-size: 20px;
+  color: aliceblue;
+  border: none;
+}
+.copy-code:hover {
+  background-color: #3c3c3d;
 }
 
 /* 
+
 #editor {
   height: 10rem;
 } */
