@@ -89,7 +89,7 @@ app.post("/run", async (req, res) => {
   let jobID;
   try {
     const filePath = await generate(language, code);
-
+    console.log("file path : ", filePath);
     JobObject = await job.create({
       languageType: language,
       filepath: filePath,
@@ -169,6 +169,7 @@ io.on("connection", (socket) => {
       });
       // deleting user mapping
       delete userSocketMapping[socket.id];
+      console.log("enter here////////////////////////");
       socket.leave();
     });
 
@@ -222,6 +223,13 @@ io.on("connection", (socket) => {
         id: socket.id,
         code,
         lang: current_language,
+      });
+    });
+
+    socket.on("check", () => {
+      console.log("check##################");
+      io.to(id).emit("check", {
+        a: "apple",
       });
     });
 

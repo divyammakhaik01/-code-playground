@@ -4,7 +4,7 @@ const CodeSchema = mongoose.Schema({
   languageType: {
     type: String,
     require: true,
-    enum: ["py", "cpp"],
+    enum: ["py", "cpp", "C"],
   },
   filepath: {
     type: String,

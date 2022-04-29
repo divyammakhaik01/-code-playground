@@ -2,6 +2,7 @@ const Queue = require("bull");
 const job = require("./models/Code_Job");
 const { RunCpp } = require("./RunCpp");
 const { RunPy } = require("./RunPy");
+const { RunC } = require("./RunC");
 
 const job_Queue = new Queue("job_queue");
 const WORKET_COUNT = 5;
@@ -25,6 +26,8 @@ job_Queue.process(WORKET_COUNT, async ({ data }) => {
     // select language
     if (Job.languageType === "cpp") {
       output = await RunCpp(Job.filepath);
+    } else if (Job.languageType === "C") {
+      output = await RunC(Job.filepath);
     } else {
       output = await RunPy(Job.filepath);
     }

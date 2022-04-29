@@ -105,6 +105,9 @@ const CodeGround = () => {
 
   const changeLang = (e) => {
     curr_language_ref.current = current_language;
+
+    console.log("change lang...........");
+
     socketReference.current.emit("change_lang", {
       id,
       userName: location.state.userName,
@@ -163,6 +166,7 @@ const CodeGround = () => {
         // output
 
         socketReference.current.on("output", ({ code, lang }) => {
+          console.log("enter*******************************************");
           setcode(code);
 
           handleCodeSubmit(code, lang);
@@ -174,6 +178,11 @@ const CodeGround = () => {
 
   // handle Code Submit
   const handleCodeSubmit = async (CODE, lang) => {
+    console.log(" -------- >>>>>>>>>>>>>   : ", lang);
+    console.log(" -------- >>>>>>>>>>>>>   : ", curr_language_ref.current);
+    console.log(" -------- before lang : ", current_language);
+    setcurrent_language(lang);
+    console.log(" -------- after lang : ", current_language);
     let payload = {
       method: "POST",
       headers: {
@@ -207,14 +216,36 @@ const CodeGround = () => {
       let intervalID = setInterval(async () => {
         let rec = await fetch(`http://localhost:3031/status/${JOBID["jobID"]}`);
         let rec_data = await rec.json();
+        console.log("curr_lang>>>>>>>>>> : ", current_language);
 
         // in case of error in code
         if (rec_data.success === false) {
           let value = rec_data.response.output;
-          setstatus("WRONG");
+          setstatus("");
 
           let v = value.split("\\r\\n");
-          setoutput(v);
+
+          console.log("> ", v);
+          if (v.length === 1) {
+            console.log("Runtime  : error : ", v);
+            setoutput(["RUNTIME ERROR"]);
+            // clearInterval(intervalID);
+          } else {
+            let store = [];
+            console.log("::::::::::::::::::::  , ", JOBID.jobID);
+            for (let i = 1; i < v.length; i++) {
+              console.log("before :  ", v[i]);
+              console.log("curr_lang : ", current_language);
+              let x = v[i].split(`.${curr_language_ref.current}`);
+              // let x = v[i].split(`.${current_language}:`);
+              console.log("after :  ", x);
+              if (x.length == 1) store.push(x[0]);
+              else store.push(x[1]);
+            }
+            setoutput(store);
+            // clearInterval(intervalID);
+          }
+          // setoutput(v);
           clearInterval(intervalID);
           return;
         }
@@ -255,10 +286,23 @@ const CodeGround = () => {
     }
   };
 
-  const handleCodeSubmit1 = () => {
+  const handleCodeSubmit1 = async () => {
     // console.log("handleCodeSubmit1 : ", curr_language_ref.current);
     // console.log("currlang: ,", current_language);
     curr_language_ref.current = current_language;
+    console.log(
+      "click run key  ..................... ",
+      curr_language_ref.current
+    );
+    console.log("socket : ", socketReference.current);
+    if (!socketReference.current) {
+      // socketReference.current = await init_socket();
+      console.log("%%%");
+    }
+    socketReference.current.emit("check");
+    socketReference.current.on("check", () => {
+      console.log("check*******************************************");
+    });
     socketReference.current.emit("output", {
       id,
       code: codeRef.current,
@@ -473,7 +517,21 @@ const CodeGround = () => {
               }}
             >
               <option onChange={changeLang}>{current_language}</option>
-              <option>{current_language === "cpp" ? "py" : "cpp"}</option>
+
+              <option onClick={changeLang}>
+                {current_language === "cpp"
+                  ? "C"
+                  : current_language === "C"
+                  ? "py"
+                  : "cpp"}
+              </option>
+              <option onClick={changeLang}>
+                {current_language === "cpp"
+                  ? "py"
+                  : current_language === "C"
+                  ? "cpp"
+                  : "C"}
+              </option>
             </select>
             <button
               className="submit-code"

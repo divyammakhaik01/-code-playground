@@ -9,12 +9,13 @@ const Codes = path.join(__dirname, "codes");
 
 if (!fs.existsSync(Codes)) {
   console.log("enter");
- 
+
   fs.mkdirSync(Codes, { recursive: true });
 }
 
 const generate = async (language, code) => {
   let codeID = uuid();
+  if (language === "C") language = "c";
   const fileName = `${codeID}.${language}`;
   const filePath = path.join(Codes, fileName);
   await fs.writeFileSync(filePath, code);

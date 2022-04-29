@@ -424,6 +424,9 @@ footer a:hover {
     width: 50%;
     /* background-color: #00ccc8; */
   }
+  .clientsList {
+    max-width: 12rem;
+  }
   .outer {
     flex-direction: column;
   }
@@ -447,7 +450,7 @@ footer a:hover {
   .hide-pannel1 {
     color: #d7d4f0;
     font-size: 2rem;
-    margin-right: 5rem;
+    /* margin-right: 5rem; */
     display: block;
   }
 
