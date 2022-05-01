@@ -80,15 +80,17 @@ input {
 .output-status {
   font-size: 1.2rem;
   font-weight: 700;
+  margin-top: 3rem;
 }
 .CodeMirror {
-  min-height: calc(35.5rem);
-  font-size: 17px;
+  /* min-height: calc(35.5rem); */
+  min-height: calc(31rem);
+  font-size: 13px;
   line-height: 1.6;
   padding-top: 20px;
   width: calc(100vh - 20px);
-  height: 22rem;
-  /* height: 23rem; */
+  /* height: 22rem; */
+  height: 30rem;
   /* overflow: auto; */
   grid-area: code-mirror;
 }
@@ -237,7 +239,7 @@ input {
 
 .btn {
   border: none;
-  padding: 10px;
+  padding: 9px;
   border-radius: 5px;
   font-size: 16px;
   font-weight: bold;
@@ -245,16 +247,22 @@ input {
   transition: all 0.3s ease-in-out;
 }
 
-.joinBtn,
-.leaveBtn {
+.joinBtn {
   background: #6272a4;
   width: inherit;
   color: whitesmoke;
   /* margin-left: auto; */
 }
-
-.joinBtn:hover,
+.leaveBtn {
+  background-color: #d44;
+  width: inherit;
+  color: whitesmoke;
+}
 .leaveBtn:hover {
+  background-color: rgb(228, 40, 40);
+}
+
+.joinBtn:hover {
   background: #4262c3;
 }
 
@@ -315,17 +323,20 @@ footer a:hover {
   color: #fff;
   display: flex;
   flex-direction: column;
-  height: 38rem;
+  /* height: 38rem; */
+  height: 33rem;
 }
 
 .bottom-editor {
   color: rgb(4, 4, 4);
   /* width: calc(100vh - 10px); */
-  width: 37rem;
+  /* width: 37rem; */
+  width: 32rem;
   display: flex;
   flex-direction: column;
   word-wrap: break-word;
-  height: 36.6rem;
+  /* height: 36.6rem; */
+  height: 32rem;
   /* overflow: scroll; */
   overflow: auto;
   grid-area: bottom-editor;
@@ -337,8 +348,11 @@ footer a:hover {
   padding-bottom: 22px;
   padding-right: 12px;
   padding-left: 7px;
-  position: relative;
+  /* position: relative; */
+  position: absolute;
   font-weight: 900;
+  background-color: antiquewhite;
+  width: 40%;
 }
 .hidden-aside {
   display: flex;
@@ -368,16 +382,17 @@ footer a:hover {
 #select_lang {
   cursor: pointer;
   font-family: cursive;
-  height: 2.8rem;
+  height: 2rem;
   width: 7rem;
   border-radius: 0.4rem;
+  margin-top: 0.6rem;
 
   background-color: antiquewhite;
   font-size: 20px;
   border: none;
 }
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 4px;
 }
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
@@ -433,7 +448,7 @@ footer a:hover {
   /* .copy-code {
     cursor: pointer;
     font-family: cursive;
-    height: 2.8rem;
+    height: 2rem;
     width: 9rem;
     border-radius: 7px;
     background-color: #626364;
@@ -487,6 +502,10 @@ footer a:hover {
   .bottom-editor {
     margin-left: 0px;
   }
+  .console-output {
+    background-color: antiquewhite;
+    width: calc(100vh - 19vh);
+  }
 }
 
 /* ==================== */
@@ -498,7 +517,7 @@ footer a:hover {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
 }
 
 .client {
@@ -535,8 +554,10 @@ footer a:hover {
 .submit-code {
   cursor: pointer;
   font-family: cursive;
-  height: 2.8rem;
+  height: 2rem;
   width: 7rem;
+  margin-top: 0.6rem;
+
   border-radius: 7px;
   background-color: #2f8d46;
   font-size: 20px;
@@ -552,16 +573,17 @@ footer a:hover {
 .copy-code {
   cursor: pointer;
   font-family: cursive;
-  height: 2.8rem;
+  height: 2rem;
   width: 9rem;
   border-radius: 7px;
-  background-color: #626364;
+  background-color: #3e3f41;
   font-size: 20px;
   color: aliceblue;
   border: none;
+  margin-top: 0.6rem;
 }
 .copy-code:hover {
-  background-color: #3c3c3d;
+  background-color: #2e2f30;
 }
 
 /* 

@@ -5,12 +5,22 @@ import template from "./Template";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import Codemirrior from "codemirror";
 import "codemirror/mode/clike/clike";
+import "codemirror/mode/python/python";
 import "codemirror/theme/dracula.css";
+import "codemirror/theme/monokai.css";
+// import "codemirror/theme/";
 import "codemirror/addon/edit/closetag";
 import "codemirror/addon/edit/closebrackets";
 import "codemirror/lib/codemirror.css";
 import Avatar from "react-avatar";
-import Drawer from "@mui/material/Drawer";
+import "codemirror/keymap/sublime";
+import "codemirror/addon/hint/show-hint";
+
+const current_mode = {
+  cpp: "clike",
+  c: "clike",
+  py: "python ",
+};
 
 const CodeGround = () => {
   // state's
@@ -126,11 +136,22 @@ const CodeGround = () => {
       editorRef.current = Codemirrior.fromTextArea(
         document.getElementById("editor"),
         {
-          mode: { name: "clike", json: true },
-          theme: "dracula",
+          mode: {
+            // name: `${current_mode[current_language]}`,
+            name: "text/x-csrc",
+            json: true,
+            singleLineStringErrors: true,
+          },
+          // theme: "dracula",
+
+          theme: "monokai",
           autoCloseTags: true,
           autoCloseBrackets: true,
           lineNumbers: true,
+          lineWrapping: true,
+          keyMap: "sublime",
+          autocorrect: true,
+          extraKeys: { "Ctrl-Space": "autocomplete" },
         }
       );
       // editorRef.current.setSize(700, 200);
