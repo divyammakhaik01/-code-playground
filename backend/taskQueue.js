@@ -1,8 +1,8 @@
 const Queue = require("bull");
 const job = require("./models/Code_Job");
-const { RunCpp } = require("./RunCpp");
-const { RunPy } = require("./RunPy");
-const { RunC } = require("./RunC");
+const { RunCpp } = require("./codeRunnerFiles/RunCpp");
+const { RunPy } = require("./codeRunnerFiles/RunPy");
+const { RunC } = require("./codeRunnerFiles/RunC");
 
 const job_Queue = new Queue("job_queue");
 const WORKET_COUNT = 5;

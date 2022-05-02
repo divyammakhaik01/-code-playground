@@ -336,7 +336,7 @@ footer a:hover {
   flex-direction: column;
   word-wrap: break-word;
   /* height: 36.6rem; */
-  height: 32rem;
+  height: 32.3rem;
   /* overflow: scroll; */
   overflow: auto;
   grid-area: bottom-editor;

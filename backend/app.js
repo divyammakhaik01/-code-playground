@@ -1,11 +1,10 @@
 const express = require("express");
 const app = express();
 const { Server } = require("socket.io");
-
 const bodyParser = require("body-parser");
 const { generate } = require("./File");
-const { RunCpp } = require("./RunCpp");
-const { RunPy } = require("./RunPy");
+const { RunCpp } = require("./codeRunnerFiles/RunCpp");
+const { RunPy } = require("./codeRunnerFiles/RunPy");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const job = require("./models/Code_Job");
@@ -249,6 +248,3 @@ io.on("connection", (socket) => {
     });
   });
 });
-
-// id->(ie room_id) comes from user
-// socket.id is user's id
