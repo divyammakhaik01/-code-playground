@@ -9,6 +9,6 @@ export const init_socket = async () => {
   };
 
   //   return instance of socket client
-  return io("https://code-playground-101.herokuapp.com/", options);
+  return io("https://codeplayground-111.herokuapp.com/", options);
   // return io("http://localhost:3031", options);
 };
