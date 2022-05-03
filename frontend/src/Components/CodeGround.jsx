@@ -208,6 +208,7 @@ const CodeGround = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        // Accept: "application/json",
       },
 
       body: JSON.stringify({
@@ -225,7 +226,7 @@ const CodeGround = () => {
         return;
       }
 
-      const res = await fetch("http://localhost:3031/run", payload);
+      const res = await fetch("http://localhost:3031/api/run", payload);
 
       const JOBID = await res.json();
       if (JOBID === undefined || res.status == 500) {
@@ -235,10 +236,12 @@ const CodeGround = () => {
       }
       // long - pooling
       let intervalID = setInterval(async () => {
-        let rec = await fetch(`http://localhost:3031/status/${JOBID["jobID"]}`);
+        let rec = await fetch(
+          `http://localhost:3031/api/status/${JOBID["jobID"]}`
+        );
         let rec_data = await rec.json();
         console.log("curr_lang>>>>>>>>>> : ", current_language);
-
+        console.log("rec_data  ", rec_data);
         // in case of error in code
         if (rec_data.success === false) {
           let value = rec_data.response.output;
@@ -303,7 +306,9 @@ const CodeGround = () => {
         }
       }, 1000);
     } catch (error) {
+      console.log("error : ", error);
       alert("Error while connecting to server!!!");
+      setstatus("");
     }
   };
 

@@ -10,7 +10,7 @@ const mongoose = require("mongoose");
 const job = require("./models/Code_Job");
 const { addJob } = require("./taskQueue");
 const http = require("http");
-
+const path = require("path");
 // create DB
 mongoose
   .connect("mongodb://localhost/codePlayground")
@@ -25,7 +25,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get("/status/:id", async (req, res) => {
+// -------------------------------------------------------------------------------------------------
+app.use(express.static(path.join(__dirname, "..", "frontend", "build")));
+app.use(express.static("public"));
+app.use(express.static("src"));
+
+// app.use((req, res, next) => {
+//   res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"));
+//   // next();
+// });
+// app.get("*", (req, res) =>
+//   res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"))
+// );
+// -------------------------------------------------------------------------------------------------
+
+app.get("/api/status/:id", async (req, res) => {
   console.log(
     "---------------------------------status check--------------------------------------"
   );
@@ -64,14 +78,14 @@ app.get("/status/:id", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400).json({
+    return res.json({
       success: "false",
       error: error,
     });
   }
 });
 
-app.post("/run", async (req, res) => {
+app.post("/api/run", async (req, res) => {
   let { code, language = "cpp" } = req.body;
   console.log("code : ", req.body);
 
@@ -101,7 +115,7 @@ app.post("/run", async (req, res) => {
     addJob(jobID);
     // console.log("res : ", res);
     // send jobID to frontend
-    res.status(201).json({
+    res.json({
       status: "true",
       jobID: jobID,
     });
@@ -112,7 +126,9 @@ app.post("/run", async (req, res) => {
     });
   }
 });
-
+app.get("*", (req, res) =>
+  res.sendFile(path.join(__dirname, "..", "frontend", "build", "index.html"))
+);
 const server = app.listen(3031, () => {
   console.log("app is listening port 3031 ");
 });
