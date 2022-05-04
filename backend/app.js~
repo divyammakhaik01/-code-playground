@@ -10,17 +10,16 @@ const job = require("./models/Code_Job");
 const { addJob } = require("./taskQueue");
 const http = require("http");
 const path = require("path");
-// const dotenv = require("dotenv");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
-// dotenv.config();
+dotenv.config();
 
 // create DB
 // const URL = process.env.MONGO_URI || "mongodb://localhost/codePlayground";
-const link =
-  "mongodb+srv://makhaik_divyam:AppleMango123@cluster0.mleoz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
 mongoose
-  .connect(link)
+  .connect(process.env.MONGO_URI)
   .then((db) => {
     console.log("db connected");
   })
