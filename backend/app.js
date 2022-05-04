@@ -12,8 +12,11 @@ const { addJob } = require("./taskQueue");
 const http = require("http");
 const path = require("path");
 // create DB
+const URL = process.env.MONGO_URI;
+// const URL = process.env.MONGO_URI || "mongodb://localhost/codePlayground";
+
 mongoose
-  .connect("mongodb://localhost/codePlayground")
+  .connect(URL)
   .then((db) => {
     console.log("db connected");
   })
