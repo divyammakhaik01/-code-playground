@@ -3,9 +3,13 @@ const job = require("./models/Code_Job");
 const { RunCpp } = require("./codeRunnerFiles/RunCpp");
 const { RunPy } = require("./codeRunnerFiles/RunPy");
 const { RunC } = require("./codeRunnerFiles/RunC");
+let REDIS_URL = process.env.REDIS_URL || "redis://127.0.0.1:6379";
+// let throng = require("throng");
 
-const job_Queue = new Queue("job_queue");
 const WORKET_COUNT = 5;
+// const WORKET_COUNT = process.env.WEB_CONCURRENCY || 5;
+
+const job_Queue = new Queue("job_queue", REDIS_URL);
 
 // process job
 job_Queue.process(WORKET_COUNT, async ({ data }) => {
@@ -80,3 +84,5 @@ const addJob = async (ID) => {
 module.exports = {
   addJob,
 };
+
+// throng({ workers, start });
