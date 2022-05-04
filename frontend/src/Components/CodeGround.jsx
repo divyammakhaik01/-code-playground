@@ -226,7 +226,10 @@ const CodeGround = () => {
         return;
       }
 
-      const res = await fetch("http://localhost:3031/api/run", payload);
+      const res = await fetch(
+        "https://codeplayground-111.herokuapp.com/api/run",
+        payload
+      );
 
       const JOBID = await res.json();
       if (JOBID === undefined || res.status == 500) {
@@ -237,7 +240,7 @@ const CodeGround = () => {
       // long - pooling
       let intervalID = setInterval(async () => {
         let rec = await fetch(
-          `http://localhost:3031/api/status/${JOBID["jobID"]}`
+          `https://codeplayground-111.herokuapp.com/api/status/${JOBID["jobID"]}`
         );
         let rec_data = await rec.json();
         console.log("curr_lang>>>>>>>>>> : ", current_language);
