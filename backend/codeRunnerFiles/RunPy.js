@@ -8,7 +8,7 @@ const RunPy = async (filePath) => {
 
   return new Promise((resolve, rejects) => {
     exec(
-      ` cd ${TargetLocation} && py ${jobID}.py `,
+      ` cd ${TargetLocation} && python ${jobID}.py `,
       (error, stdout, stderror) => {
         if (error) {
           rejects({ error, stderror });
