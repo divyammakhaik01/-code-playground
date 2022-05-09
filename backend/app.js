@@ -10,17 +10,14 @@ const job = require("./models/Code_Job");
 const { addJob } = require("./taskQueue");
 const http = require("http");
 const path = require("path");
-// const dotenv = require("dotenv");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 
-// dotenv.config();
+dotenv.config();
 
 // create DB
 // const URL = process.env.MONGO_URI || "mongodb://localhost/codePlayground";
-const link =
-  // "mongodb+srv://makhaik_divyam:AppleMango123@cluster0.mleoz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
-  "mongodb://makhaik_divyam:AppleMango123@cluster0-shard-00-00.mleoz.mongodb.net:27017,cluster0-shard-00-01.mleoz.mongodb.net:27017,cluster0-shard-00-02.mleoz.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-10uofl-shard-0&authSource=admin&retryWrites=true&w=majority";
+let link = process.env.MONGO_KEY;
 mongoose
   .connect(link)
   .then((db) => {
