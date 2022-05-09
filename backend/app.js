@@ -121,63 +121,63 @@ app.post("/api/run", async (req, res) => {
     console.log("... ", JobObject);
     console.log("job id :::::    ", jobID);
     // send job to bull queue
-    // addJob(jobID);
+    addJob(jobID);
     // ----------------------------------------------------------------------------------
     //  const { id: ID } = data;
-    let ID = jobID;
+    // let ID = jobID;
 
-    console.log(`${ID}`);
+    // console.log(`${ID}`);
 
-    const Job = await job.findById(ID);
+    // const Job = await job.findById(ID);
 
-    if (Job === undefined) {
-      throw Error("invalid ID job not found....");
-    }
-    console.log("job Fetched :  ", Job);
-    // job fetched by worker
-    try {
-      Job["startTime"] = new Date();
+    // if (Job === undefined) {
+    //   throw Error("invalid ID job not found....");
+    // }
+    // console.log("job Fetched :  ", Job);
+    // // job fetched by worker
+    // try {
+    //   Job["startTime"] = new Date();
 
-      // select language
-      if (Job.languageType === "cpp") {
-        output = await RunCpp(Job.filepath);
-      } else if (Job.languageType === "C") {
-        output = await RunC(Job.filepath);
-      } else {
-        output = await RunPy(Job.filepath);
-      }
+    //   // select language
+    //   if (Job.languageType === "cpp") {
+    //     output = await RunCpp(Job.filepath);
+    //   } else if (Job.languageType === "C") {
+    //     output = await RunC(Job.filepath);
+    //   } else {
+    //     output = await RunPy(Job.filepath);
+    //   }
 
-      // update database
-      const newJob = await job.findByIdAndUpdate(
-        ID,
-        {
-          startTime: Job["startTime"],
-          endTime: new Date(),
-          Jobstatus: "done",
-          // output: JSON.stringify(output),
-          output: output,
-        },
-        {
-          returnOriginal: false,
-        }
-      );
-      console.log(
-        "newJob-------------------------------------------------------------------------- ",
-        newJob
-      );
-    } catch (error) {
-      // update database
-      const errorObj = await job.findByIdAndUpdate(
-        ID,
-        {
-          startTime: Job["startTime"],
-          endTime: new Date(),
-          Jobstatus: "error",
-          output: JSON.stringify(error),
-        },
-        { returnOriginal: false }
-      );
-    }
+    //   // update database
+    //   const newJob = await job.findByIdAndUpdate(
+    //     ID,
+    //     {
+    //       startTime: Job["startTime"],
+    //       endTime: new Date(),
+    //       Jobstatus: "done",
+    //       // output: JSON.stringify(output),
+    //       output: output,
+    //     },
+    //     {
+    //       returnOriginal: false,
+    //     }
+    //   );
+    //   console.log(
+    //     "newJob-------------------------------------------------------------------------- ",
+    //     newJob
+    //   );
+    // } catch (error) {
+    //   // update database
+    //   const errorObj = await job.findByIdAndUpdate(
+    //     ID,
+    //     {
+    //       startTime: Job["startTime"],
+    //       endTime: new Date(),
+    //       Jobstatus: "error",
+    //       output: JSON.stringify(error),
+    //     },
+    //     { returnOriginal: false }
+    //   );
+    // }
 
     // ----------------------------------------------------------------------------------
 
