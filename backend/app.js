@@ -18,7 +18,9 @@ const mongoose = require("mongoose");
 // create DB
 // const URL = process.env.MONGO_URI || "mongodb://localhost/codePlayground";
 const link =
-  "mongodb+srv://makhaik_divyam:AppleMango123@cluster0.mleoz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  // "mongodb+srv://makhaik_divyam:AppleMango123@cluster0.mleoz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+  "mongodb://makhaik_divyam:AppleMango123@cluster0-shard-00-00.mleoz.mongodb.net:27017,cluster0-shard-00-01.mleoz.mongodb.net:27017,cluster0-shard-00-02.mleoz.mongodb.net:27017/myFirstDatabase?ssl=true&replicaSet=atlas-10uofl-shard-0&authSource=admin&retryWrites=true&w=majority";
 mongoose
   .connect(link)
   .then((db) => {
@@ -119,7 +121,66 @@ app.post("/api/run", async (req, res) => {
     console.log("... ", JobObject);
     console.log("job id :::::    ", jobID);
     // send job to bull queue
-    addJob(jobID);
+    // addJob(jobID);
+    // ----------------------------------------------------------------------------------
+    //  const { id: ID } = data;
+    let ID = jobID;
+
+    console.log(`${ID}`);
+
+    const Job = await job.findById(ID);
+
+    if (Job === undefined) {
+      throw Error("invalid ID job not found....");
+    }
+    console.log("job Fetched :  ", Job);
+    // job fetched by worker
+    try {
+      Job["startTime"] = new Date();
+
+      // select language
+      if (Job.languageType === "cpp") {
+        output = await RunCpp(Job.filepath);
+      } else if (Job.languageType === "C") {
+        output = await RunC(Job.filepath);
+      } else {
+        output = await RunPy(Job.filepath);
+      }
+
+      // update database
+      const newJob = await job.findByIdAndUpdate(
+        ID,
+        {
+          startTime: Job["startTime"],
+          endTime: new Date(),
+          Jobstatus: "done",
+          // output: JSON.stringify(output),
+          output: output,
+        },
+        {
+          returnOriginal: false,
+        }
+      );
+      console.log(
+        "newJob-------------------------------------------------------------------------- ",
+        newJob
+      );
+    } catch (error) {
+      // update database
+      const errorObj = await job.findByIdAndUpdate(
+        ID,
+        {
+          startTime: Job["startTime"],
+          endTime: new Date(),
+          Jobstatus: "error",
+          output: JSON.stringify(error),
+        },
+        { returnOriginal: false }
+      );
+    }
+
+    // ----------------------------------------------------------------------------------
+
     // console.log("res : ", res);
     // send jobID to frontend
     res.json({
