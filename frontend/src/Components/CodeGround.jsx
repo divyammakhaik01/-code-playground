@@ -228,7 +228,6 @@ const CodeGround = () => {
 
       const res = await fetch(
         "http//localhost:3031/api/run",
-        // "https://codeplayground-111.herokuapp.com/api/run",
         payload
       );
 
